@@ -1,0 +1,187 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ZimaGotchi — Demonstração</title><style>
+:root{color-scheme:dark;--bg:#061008;--panel:#0d1d12;--line:#24482f;--ink:#dfffe7;--muted:#85aa90;--glow:#61ff8b;--bad:#ff7480;--warn:#ffd166}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 0,#102b19,var(--bg) 38%);color:var(--ink);font:14px system-ui;padding:14px}
+.app{max-width:1050px;margin:auto}
+.banner{max-width:1050px;margin:0 auto 14px;padding:12px 18px;border:1px solid var(--warn);background:#241c06;color:var(--warn);border-radius:14px;font-size:13px;line-height:1.5}
+.banner b{color:#ffe6a3}
+.header,.hero,.metrics,.networks,.history{border:1px solid var(--line);background:#09170e;border-radius:22px}
+.header{display:flex;flex-wrap:wrap;gap:10px 18px;justify-content:space-between;align-items:center;padding:17px 20px;margin-bottom:14px}.brand{color:var(--glow);font:700 15px monospace;letter-spacing:.1em}.status{color:var(--muted)}
+.hero{display:grid;grid-template-columns:1fr 1.1fr;overflow:hidden}.screen{min-height:300px;background:#cbe8c9;color:#132517;display:grid;place-items:center;margin:16px;border:10px solid #263d2c;border-radius:17px;box-shadow:inset 0 0 35px #6f8a70}
+.screen.celebrate{animation:celebrate 1s ease-in-out infinite alternate}@keyframes celebrate{from{box-shadow:inset 0 0 35px #6f8a70,0 0 8px #61ff8b}to{box-shadow:inset 0 0 45px #4e9b61,0 0 34px #61ff8b;transform:scale(1.012)}}
+.face{text-align:center;font:700 clamp(43px,8vw,76px) monospace}.speech{text-align:center;font-weight:800;margin-top:15px}.eat{text-align:center;font:12px monospace;margin-top:8px;opacity:.7}
+.petstats{padding:26px;display:flex;flex-direction:column;flex-wrap:wrap;justify-content:center;gap:15px;min-width:0}.petmeta,.healthline{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;min-width:0}.healthline{color:var(--muted);font-size:12px}.level{font:700 38px monospace;color:var(--glow)}.bar{height:10px;border-radius:9px;background:#183121;overflow:hidden}.bar i{display:block;height:100%;background:var(--glow);transition:width .4s ease}
+.metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;margin:14px 0;overflow:hidden}.metric{padding:18px;background:#09170e}.metric b{display:block;color:var(--glow);font:700 25px monospace}.metric span{color:var(--muted);font-size:10px;text-transform:uppercase}
+.networks,.history{padding:20px;margin-top:14px}h2{font-size:15px;margin:0 0 16px;color:#bdeec9}.table{overflow:auto}table{width:100%;border-collapse:collapse;min-width:760px}th,td{text-align:left;padding:11px;border-bottom:1px solid #183522}th{color:var(--muted);font-size:10px;text-transform:uppercase}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px;background:var(--bad)}.dot.on{background:var(--glow);box-shadow:0 0 8px var(--glow)}
+.rank{color:var(--glow);font:700 13px monospace}canvas{width:100%;height:190px;display:block}.foot{text-align:center;color:var(--muted);font-size:11px;margin:16px}
+@media(max-width:600px){body{padding:4px;font-size:11px}.app,.banner{width:100%}.header{padding:7px 9px;margin-bottom:5px;border-radius:11px}.brand{font-size:11px}.status{font-size:10px}.hero{grid-template-columns:1fr;border-radius:12px}.screen{min-height:145px;margin:5px;border-width:6px;border-radius:11px}.face{font-size:38px}.speech{margin-top:5px;font-size:11px;padding:0 5px}.eat{font-size:9px;margin-top:3px}.petstats{padding:7px 9px;display:grid;grid-template-columns:52px 1fr;gap:4px 8px}.petstats small{font-size:8px}.level{font-size:24px}.bar{height:6px}.petmeta,.healthline{grid-column:1/-1;gap:3px 7px;font-size:9px}.metrics{grid-template-columns:repeat(5,1fr);margin:5px 0;border-radius:11px}.metric{padding:7px 3px;text-align:center}.metric b{font-size:14px}.metric span{font-size:7px}.networks{padding:8px;margin-top:5px;border-radius:11px}h2{font-size:10px;margin-bottom:5px}table{min-width:0;font-size:9px}th,td{padding:5px 3px}th{font-size:7px}}
+</style></head><body>
+<div class="banner">🎭 <b>Modo demonstração</b> — esta página roda inteiramente no seu navegador e gera dados fictícios (redes, pacotes, handshakes) só para mostrar como a interface se comporta. Nenhuma captura de Wi‑Fi real acontece aqui. Veja o <code>README.md</code> deste repositório para instalar a versão real.</div>
+<main class="app"><header class="header"><span class="brand">ZIMAGOTCHI — DEMO</span><span class="status" id="status">● SIMULANDO</span></header>
+<section class="hero"><div class="screen" id="screen"><div><div class="face" id="face">(－_－) zzZ</div><div class="speech" id="message">Acordando…</div><div class="eat">COMENDO: <span id="eating">—</span></div></div></div>
+<div class="petstats"><div><small>NÍVEL</small><div class="level" id="level">1</div></div><div><span id="xp">0 XP</span><div class="bar"><i id="xpbar" style="width:0%"></i></div></div><div class="petmeta"><span>Canal <b id="channel">—</b></span><span id="channelmode">alternando (demo acelerada)</span><span>·</span><span id="mood">acordando</span></div><div class="healthline"><span>Saúde: <b id="health">ok</b></span><span>CPU: <b id="cpu">—</b></span><span>Recuperações 24h: <b id="recoveries">0</b></span><span>Descartados: <b id="dropped">0</b></span></div></div></section>
+<section class="metrics"><div class="metric"><b id="packets">0</b><span>Eventos</span></div><div class="metric"><b id="rate">0</b><span>Por minuto</span></div><div class="metric"><b id="online">0/6</b><span>Redes online</span></div><div class="metric"><b id="handshakes">0</b><span>Handshakes válidos</span></div><div class="metric"><b id="uptime">0m</b><span>Acordado</span></div></section>
+<section class="history"><h2>Atividade nas últimas 24 horas (fictícia)</h2><canvas id="chart" width="1000" height="190"></canvas></section>
+<section class="networks"><h2>Ranking das redes de exemplo</h2><div class="table"><table><thead><tr><th>#</th><th>Rede</th><th>Estado</th><th>Canal</th><th>Sinal médio</th><th>Eventos</th><th>EAPOL</th><th>Validados</th></tr></thead><tbody id="rows"></tbody></table></div></section>
+<div class="foot">Demonstração estática · dados 100% fictícios gerados no navegador · nada é enviado para nenhum servidor</div></main>
+<script>
+// ---- Dados fictícios: BSSIDs no intervalo "administrado localmente" (02:xx),
+// que nunca correspondem a hardware real, só para deixar claro que é exemplo. ----
+const FAKE_NETWORKS = [
+  {name:"CAFE-NET_Demo",      bssid:"02:11:22:aa:bb:01", channel:1},
+  {name:"SUNVILLA_Fibra",     bssid:"02:11:22:aa:bb:02", channel:4},
+  {name:"REDE-JARDIM_5G",     bssid:"02:11:22:aa:bb:03", channel:6},
+  {name:"TORRE-AZUL_Wifi",    bssid:"02:11:22:aa:bb:04", channel:9},
+  {name:"VILA-NOVA_Internet", bssid:"02:11:22:aa:bb:05", channel:11},
+  {name:"ECHO-PONTO_Casa",    bssid:"02:11:22:aa:bb:06", channel:1},
+];
+const CHANNELS = [...new Set(FAKE_NETWORKS.map(n=>n.channel))].sort((a,b)=>a-b);
+
+const $=id=>document.getElementById(id);
+const fmt=n=>Number(n).toLocaleString('pt-BR');
+const age=s=>s>86400?Math.floor(s/86400)+'d':s>3600?Math.floor(s/3600)+'h':Math.floor(s/60)+'m';
+const rand=(a,b)=>a+Math.random()*(b-a);
+const pick=arr=>arr[Math.floor(Math.random()*arr.length)];
+
+const started = Date.now();
+let channelIndex = 0;
+let lastChannelSwitch = Date.now();
+const CHANNEL_DWELL_MS = 9000; // acelerado só para a demo ser visível rápido
+
+const nets = FAKE_NETWORKS.map(n => ({
+  ...n, packets:0, eapol_frames:0, valid_handshakes:0,
+  online: Math.random() > 0.3, signal: rand(-75,-35), signalSamples:[rand(-75,-35)],
+}));
+
+const state = {
+  xp:0, level:1, capture_ok:false, health:"ok",
+  last_handshake_at:0, last_handshake_network:null,
+  recent:[], // timestamps dos últimos "pacotes" simulados, para calcular taxa/min
+};
+
+function levelFor(xp){ return Math.floor(Math.sqrt(Math.max(0,xp)/50)) + 1; }
+
+function currentChannel(){ return CHANNELS[channelIndex]; }
+
+function maybeHopChannel(){
+  if (Date.now() - lastChannelSwitch >= CHANNEL_DWELL_MS){
+    channelIndex = (channelIndex+1) % CHANNELS.length;
+    lastChannelSwitch = Date.now();
+  }
+}
+
+function tick(){
+  state.capture_ok = true;
+  const now = Date.now();
+  const ch = currentChannel();
+  for (const net of nets){
+    // Redes no canal atual recebem mais atividade "simulada"; as outras, quase nada.
+    const onChannel = net.channel === ch;
+    if (Math.random() < 0.02) net.online = !net.online; // oscilação ocasional
+    if (net.online && onChannel && Math.random() < 0.7){
+      const burst = Math.floor(rand(1, 40));
+      net.packets += burst;
+      for (let i=0;i<burst;i++) state.recent.push(now);
+      const s = Math.max(-95, Math.min(-30, net.signal + rand(-2,2)));
+      net.signal = s;
+      net.signalSamples.push(s);
+      if (net.signalSamples.length > 120) net.signalSamples.shift();
+      // Quadro EAPOL raro; handshake completo mais raro ainda.
+      if (Math.random() < 0.01){
+        net.eapol_frames += 1;
+        state.xp += 5;
+      }
+      if (Math.random() < 0.0015){
+        net.valid_handshakes += 1;
+        state.last_handshake_at = now;
+        state.last_handshake_network = net.name;
+        state.xp += 100;
+      }
+    }
+  }
+  state.recent = state.recent.filter(t => now - t < 60000);
+  state.xp += 1; // minuto/tick saudável simplificado
+  state.level = levelFor(state.xp);
+  maybeHopChannel();
+}
+
+function draw(points){
+  const c=$('chart'), x=c.getContext('2d'), w=c.width, h=c.height;
+  x.clearRect(0,0,w,h);
+  x.strokeStyle='#24482f'; x.lineWidth=1;
+  for (let i=1;i<5;i++){ x.beginPath(); x.moveTo(0,h*i/5); x.lineTo(w,h*i/5); x.stroke(); }
+  if (!points.length) return;
+  const max = Math.max(1, ...points);
+  x.strokeStyle='#61ff8b'; x.lineWidth=3; x.beginPath();
+  points.forEach((p,i)=>{
+    const px = i*w/Math.max(1,points.length-1), py = h-10-(p/max)*(h-20);
+    i ? x.lineTo(px,py) : x.moveTo(px,py);
+  });
+  x.stroke();
+}
+
+// Curva fictícia de 24h com formato "dia útil" (mais atividade de manhã/noite).
+const HISTORY = Array.from({length:24}, (_,hr) => {
+  const base = 30 + 70*Math.exp(-Math.pow((hr-9)/4,2)) + 50*Math.exp(-Math.pow((hr-20)/3,2));
+  return Math.max(2, Math.round(base + rand(-10,10)));
+});
+
+function render(){
+  const now = Date.now();
+  const handshakeAgeS = state.last_handshake_at ? (now - state.last_handshake_at)/1000 : null;
+  const celebrating = handshakeAgeS !== null && handshakeAgeS <= 15;
+  let face, mood, message;
+  const onlineCount = nets.filter(n=>n.online).length;
+  const rate = state.recent.length;
+  if (celebrating){
+    face='(✧‿✧)'; mood='proud'; message=`Capturei uma autenticação completa em ${state.last_handshake_network}!`;
+  } else if (!state.capture_ok){
+    face='(－_－) zzZ'; mood='waking'; message='Acordando e procurando sinais…';
+  } else if (onlineCount < nets.length/2){
+    face='(╥﹏╥)'; mood='worried'; message='Algumas redes sumiram…';
+  } else if (rate > 400){
+    face='(✧◡✧)'; mood='excited'; message='A rede está uma festa!';
+  } else if (rate > 60){
+    face='(⌐■‿■)'; mood='happy'; message='Estou comendo ondas Wi‑Fi!';
+  } else {
+    face='(•‿•)'; mood='calm'; message='Tudo tranquilo por aqui.';
+  }
+
+  $('status').textContent = '● SIMULANDO';
+  $('face').textContent = face;
+  $('message').textContent = message;
+  $('screen').classList.toggle('celebrate', mood==='proud');
+  $('mood').textContent = mood;
+  $('channel').textContent = currentChannel();
+  const remaining = Math.max(0, Math.ceil((CHANNEL_DWELL_MS - (now-lastChannelSwitch))/1000));
+  $('channelmode').textContent = `alternando (demo) · próxima troca em ${remaining}s`;
+  $('health').textContent = 'ok';
+  $('cpu').textContent = (2 + Math.random()*3).toFixed(1) + '%';
+  $('recoveries').textContent = '0';
+  $('dropped').textContent = '0';
+  const eating = nets.filter(n=>n.channel===currentChannel()).map(n=>n.name);
+  $('eating').textContent = eating.join(' + ') || 'procurando…';
+  $('xp').textContent = fmt(Math.floor(state.xp)) + ' XP';
+  const floor = 50*Math.pow(Math.max(0,state.level-1),2), ceil = 50*Math.pow(state.level,2);
+  $('xpbar').style.width = Math.max(0, Math.min(100, (state.xp-floor)/Math.max(1,ceil-floor)*100)) + '%';
+  $('level').textContent = state.level;
+  const totalPackets = nets.reduce((a,n)=>a+n.packets,0);
+  const totalHandshakes = nets.reduce((a,n)=>a+n.valid_handshakes,0);
+  $('packets').textContent = fmt(totalPackets);
+  $('rate').textContent = fmt(rate);
+  $('online').textContent = onlineCount + '/' + nets.length;
+  $('handshakes').textContent = totalHandshakes;
+  $('uptime').textContent = age(Math.floor((now-started)/1000));
+
+  const ranked = [...nets].sort((a,b)=>b.packets-a.packets);
+  $('rows').innerHTML = ranked.map((n,i) => {
+    const avg = n.signalSamples.length ? (n.signalSamples.reduce((a,b)=>a+b,0)/n.signalSamples.length).toFixed(1) : '—';
+    return `<tr><td class="rank">${i+1}</td><td>${n.name}</td><td><i class="dot ${n.online?'on':''}"></i>${n.online?'online':'indisponível'}</td><td>${n.channel}</td><td>${n.online?avg+' dBm':'—'}</td><td>${fmt(n.packets)}</td><td>${n.eapol_frames}</td><td>${n.valid_handshakes}</td></tr>`;
+  }).join('');
+}
+
+draw(HISTORY);
+tick(); render();
+setInterval(()=>{ tick(); render(); }, 1000);
+</script>
+</body></html>
