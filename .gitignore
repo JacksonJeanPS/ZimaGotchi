@@ -1,0 +1,20 @@
+# Configuração privada da instalação
+server/networks.json
+networks.json
+.env
+*.env
+
+# Capturas, bancos e logs
+data/
+captures/
+*.pcap
+*.pcapng
+*.db
+*.db-shm
+*.db-wal
+*.log
+
+# Temporários
+__pycache__/
+*.py[cod]
+.DS_Store
