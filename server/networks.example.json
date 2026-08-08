@@ -1,0 +1,7 @@
+[
+  {"name":"LAB-ROUTER_A","bssid":"02:10:20:30:40:01","channel":1},
+  {"name":"LAB-ROUTER_B","bssid":"02:10:20:30:40:02","channel":4},
+  {"name":"LAB-ROUTER_C","bssid":"02:10:20:30:40:03","channel":5},
+  {"name":"LAB-ROUTER_D","bssid":"02:10:20:30:40:04","channel":10},
+  {"name":"LAB-ROUTER_E","bssid":"02:10:20:30:40:05","channel":11}
+]
